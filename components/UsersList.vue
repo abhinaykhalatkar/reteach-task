@@ -7,26 +7,63 @@
         <p>Name: {{ user.name }}</p>
         <p>Email: {{ user.email }}</p>
         <p>Username: {{ user.username }}</p>
-        <hr />
       </NuxtLink>
     </ul>
   </AwesomeSection>
 </template>
 
 <script setup>
+import { ref, computed } from 'vue';
 import { useAsyncData } from 'nuxt/app';
 
 const search = ref('');
+const users = ref(null);
 
-const filteredUsers = computed(() =>
-  users
-    ? users.value.filter((user) =>
-        user.name.toLowerCase().includes(search.value.toLowerCase())
-      )
-    : []
-);
+useAsyncData(async () => {
+  const response = await fetch('https://jsonplaceholder.typicode.com/users');
+  users.value = await response.json();
+});
 
-const { data: users } = useAsyncData(() =>
-  fetch('https://jsonplaceholder.typicode.com/users').then((res) => res.json())
-);
+const filteredUsers = computed(() => {
+  if (!users.value) return [];
+  return users.value.filter((user) =>
+    user.name.toLowerCase().includes(search.value.toLowerCase())
+  );
+});
 </script>
+
+<style scoped>
+ul {
+  padding: 0;
+  width: 100%;
+  border-bottom: 2px solid black;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+
+@media (max-width: 768px) {
+
+  section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  ul {
+    text-align: center;
+
+  }
+
+  @media (max-width: 420px) {
+    ul {
+      border-radius: 5px;
+      border-bottom: none;
+      box-shadow: rgb(80, 86, 90) 2px 4px 10px 0px
+    }
+  }
+}
+</style>

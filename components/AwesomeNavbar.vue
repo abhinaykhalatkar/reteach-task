@@ -2,15 +2,53 @@
   <nav>
     Navigation
     <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/">Home 2</a></li>
-      <li><a href="/">Home 3</a></li>
-      <li><a href="/">Home 4</a></li>
-      <li><a href="/">Home 5</a></li>
-      <li><a href="/">Home 6</a></li>
-      <li><a href="/">Home 7</a></li>
-      <li><a href="/">Home 8</a></li>
-      <li><a href="/">Home 9</a></li>
+      <li v-for="(item, index) in items" :key="index">
+        <NuxtLink :to="`/`" :key="index">
+          Home {{ index + 1 }}
+        </NuxtLink>
+      </li>
     </ul>
   </nav>
 </template>
+<script setup>
+const items = new Array(10).fill(null);
+</script>
+
+<style scoped>
+ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+}
+
+li {
+  flex: 1 0 auto;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+a {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  li {
+    flex-basis: calc(20% - 20px);
+  }
+}
+
+@media (max-width: 420px) {
+  li {
+    flex-basis: calc(50% - 20px);
+  }
+}
+</style>

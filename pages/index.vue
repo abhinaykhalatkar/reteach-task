@@ -22,3 +22,19 @@
     <p>Random text to conclude.</p>
   </aside>
 </template>
+
+<style scoped>
+hr {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+
+  aside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+}
+</style>
